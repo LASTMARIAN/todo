@@ -3,9 +3,10 @@
   "name": "server",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "devStart": "nodemon index.js"
+   "scripts": {
+    "devStart": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test mocha *.test.js",
+    "testStart": "cross-env NODE_ENV=test node index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,8 +14,14 @@
   "description": "",
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "nodemon": "^3.1.10",
     "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "chai": "^6.2.0",
+    "cross-env": "^10.1.0",
+    "mocha": "^11.7.5"
   }
 }
