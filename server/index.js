@@ -1,23 +1,21 @@
-import express from 'express'
-import cors from 'cors'
-import todoRouter from './todoRouter/todoRouter.js'
+import express from 'express';
+import cors from 'cors';
+import tasksRouter from './todoRouter/todoRouter.js';
+import usersRouter from './todoRouter/userRouter.js';
 
-const port = process.env.PORT
+const app = express();
+app.use(cors());
+app.use(express.json());
 
-const app = express()
-app.use(cors())
-app.use(express.json())
-app.use(express.urlencoded({extended: false}))
-app.use('/', todoRouter)
+app.use('/', tasksRouter);
+app.use('/user', usersRouter);
 
-app.listen(port)
+app.use((err, req, res, next) => {
+  console.error(err);
+  const status = err.status || 500;
+  res.status(status).json({ error: err.message || 'Internal Server Error' });
+});
 
-app.use((err,req,res,next) => {
-    const statusCode = err.status || 500
-    res.status(statusCode).json({
-        error: {
-            message: err.message,
-            status: statusCode
-        }
-    })
-})
+app.listen(process.env.PORT || 3001, () => {
+  console.log('Server listening');
+});
